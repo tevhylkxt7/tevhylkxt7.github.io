@@ -60,20 +60,15 @@ function startApp() {
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
   getValue();
-  getname();
 }
-function getname()
-{
-  simpleStorage.get(function(e,r){
-    document.getElementById('name').innerHTML = r;
-  })
-}
+
 function getLink(addr) {
   return '<a target="_blank" href=https://testnet.etherscan.io/address/' + addr + '>' + addr +'</a>';
 }
 function getValue() {
   simpleStorage.get(function(e,r){
     document.getElementById('storedData').innerHTML=r.toNumber();
+    wb3.eth.getElementById('name').innerHTML = r;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
