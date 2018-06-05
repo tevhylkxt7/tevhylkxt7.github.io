@@ -61,7 +61,7 @@ function startApp()
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
   getValue();
-  
+
 }
 
 function getLink(addr) {
@@ -70,7 +70,6 @@ function getLink(addr) {
 function getValue() {
   simpleStorage.get(function(e,r){
     document.getElementById('storedData').innerHTML=r.toNumber();
-    wb3.eth.getElementById('name').innerHTML = r;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
