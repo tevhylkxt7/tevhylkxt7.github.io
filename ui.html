@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
-  <title>Simple Storage Dapp 예제 </title>
+  <title>CJY dApp</title>
   <style>
     body {margin-left:50px;}
     #storedData {font-size:300%; margin-right:10px;}
@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-<h3>Simple Storage dApp 예제</h3>
+<h3>CJY dApp</h3>
 <ul>
   <li>컨트랙트 주소: <span id="contractAddr"></span></li>
   <li>내 어카운트 주소: <span id="accountAddr"></span></li>
@@ -29,12 +29,12 @@
 컨트랙트 소스
 <script src="https://gist.github.com/atomrigs/7c633570496b79623bed5d1286f93f3a.js"></script>
 <br>
-
 </body>
 <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
 <!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
 <script>
-var contractAddress = '0xde856446a16a7c24a9819767be3d05583aa3063d';
+
+var contractAddress = '0x9775DdB95eacf872a0F13B9A240B18379b21c26f';
 var abi = [{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}];
 var simpleStorageContract;
 var simpleStorage;
@@ -45,18 +45,15 @@ window.addEventListener('load', function() {
     window.web3 = new Web3(web3.currentProvider);
   } else {
     console.log('No web3? You should consider trying MetaMask!')
-<<<<<<< HEAD
     // fallback - use your fallback strategy (local node / hosted node + in-dapSp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8080"));
-=======
-    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
->>>>>>> parent of db949e7... 1
   }
   // Now you can start your app & access web3 freely:
   startApp();
 });
-function startApp() {
+function startApp()
+ {
+
   simpleStorageContract = web3.eth.contract(abi);
   simpleStorage = simpleStorageContract.at(contractAddress);
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
@@ -64,6 +61,7 @@ function startApp() {
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
   getValue();
+  
 }
 
 function getLink(addr) {
