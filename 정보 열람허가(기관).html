@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+  <title>열람권한 예제 (기업용) ============================================================</title>
+  <style>
+    body {margin-left:50px;}
+	#copdinfo {font-size:200%; margin-right:10px; }
+    #myname {font-size:200%; margin-right:10px; }
+	#mybirth {font-size:200%; margin-right:10px; }
+	#myage {font-size:200%; margin-right:10px; }
+	#name {font-size:200%; margin-right:10px; }
+	#birth {font-size:200%; margin-right:10px; }
+	#age {font-size:200%; margin-right:10px; }
+	#accountAddr {font-size:200%; margin-right:10px;}
+	#serchresult {font-size:300%; margin-right:10px; color:red}
+	#copname  {font-size:200%; margin-right:10px;}
+
+    #mynamevalue {width: 200px; margin-right:10px; text-align:left;}
+    #mybirthvalue {width: 200px; margin-right:10px; text-align:left;}
+    #myagevalue {width: 200px; margin-right:10px; text-align:left;}
+    #viewValue {width: 400px; margin-right:10px; text-align:left;}
+    #newnamevalue {width: 180px; margin-right:10px; text-align:left;}
+    #newbirthvalue {width: 180px; margin-right:10px; text-align:left;}
+    #newagevalue {width: 180px; margin-right:10px; text-align:left;}
+	#copnamevalue {width: 180px; margin-right:10px; text-align:left;}
+	#Approveaddressvalue  {width: 200px; margin-right:10px; text-align:left;}
+	#Approvetimevalue  {width: 200px; margin-right:10px; text-align:left;}
+	#joinaddressvalue  {width: 220px; margin-right:10px; text-align:left;}
+  </style>
+</head>
+<body>
+<h3>열람권한 예제 (기업용) ============================================================ </h3>
+<ul>
+		<li>컨트랙트 주소: <span id="contractAddr"></span></li>
+		<li>내 주소: <span id="accountAddr"></span></li>
+</ul>
+
+<!-- <h3>마이페이지 =======================================================================</h3>
+<ul>
+	 <li>내 학적</li> 
+		<style type="text/css">
+			.tg  {border-collapse:collapse;border-spacing:0;}
+			.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+			.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+		
+			.tg .tg-cobo{background-color:#9698ed;color:#000000;border-color:inherit;vertical-align:top}
+      .tg .tg-db0m{background-color:#cbcefb;color:#000000;border-color:inherit;vertical-align:top}
+			</style>
+			<table class="tg">
+				<tr>
+					<td class="tg-cobo">No.</td>
+					<td class="tg-cobo">기관 / 회사 이름</td>
+					<td class="tg-cobo" colspan="3">기관 / 회사 주소</td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index0'> </td>
+					<td class="tg-db0m" id='copname0'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr0'> </td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index1'> </td>
+					<td class="tg-db0m" id='copname1'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr1'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index2'> </td>
+					<td class="tg-db0m" id='copname2'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr2'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index3'> </td>
+					<td class="tg-db0m" id='copname3'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr3'> </td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index4'> </td>
+					<td class="tg-db0m" id='copname4'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr4'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index5'> </td>
+					<td class="tg-db0m" id='copname5'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr5'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index6'> </td>
+					<td class="tg-db0m" id='copname6'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr6'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='index7'> </td>
+					<td class="tg-db0m" id='copname7'> </td>
+					<td class="tg-db0m" colspan="3" id='copaddr7'></td>
+				</tr>
+			
+			</table>
+		<li>이름 : <span id="myname" ></span><span id = "ncommit"></span>
+				생일 : <span id="mybirth"></span><span id = "bcommit"></span>
+				나이 : <span id="myage"></span><span id = "acommit"></span></li>
+		<li>새 이름 : <span id="newname"></span><input id="newnamevalue" type="text">
+				새 생일 : <span id="newbirth"></span><input id="newbirthvalue" type="text"> 
+				새 나이 : <span id="newage"></span><input id="newagevalue" type="text">
+				<button onclick="setValue()">내 정보 변경</button></li>
+				<div id="result"></div></li>
+		<li>신원 조회 허가 주소 : <input id="Approveaddressvalue" type="text"> 시간 : <input id="Approvetimevalue" type="text"><button onclick="SetApprovee()">등록</button></ul>
+				 <div id="Approveresult"></div></li>
+				 
+    <li>새 값을 저장한 후 팬딩 트랜잭션이 블록에 포함되면 자동으로 페이지가 업데이트될 것입니다.</li>
+</ul> -->
+<h3>기관/기업 =======================================================================</h3>
+<ul>
+		<li>기업 / 기관 이름 : <span id="mycopname"></span></li>
+		<li>기업 / 기관 이름 등록 <input id="copnamevalue" type="text"><button onclick="Setcop()">등록</button><span id="mycopnameresult"></span></li>
+
+		<li>입학 / 등록 허가 <input id="joinaddressvalue" type="text"><button onclick="Setbel()">등록</button><span id="joinresult"></span> </li>
+	
+</ul>
+<h3>신원 조회 =======================================================================</h3>
+<ul>
+		<li>조회 어카운트 주소: <span id="view"></span><input id="viewValue" type="text"><button onclick="getValue()">불러오기</button></li>
+		<div id="serchresult"></div></li>
+		<span id="name"></span><span id="birth"></span><span id="age"></span>
+		<li>조회 학적</li> 
+		<style type="text/css">
+			.tg  {border-collapse:collapse;border-spacing:0;}
+			.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+			.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+		
+			.tg .tg-cobo{background-color:#9698ed;color:#000000;border-color:inherit;vertical-align:top}
+      .tg .tg-db0m{background-color:#cbcefb;color:#000000;border-color:inherit;vertical-align:top}
+			</style>
+			<table class="tg">
+				<tr>
+						<td class="tg-cobo">No.</td>
+						<td class="tg-cobo">기관 / 회사 이름</td>
+						<td class="tg-cobo" colspan="3">기관 / 회사 주소</td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex0'> </td>
+					<td class="tg-db0m" id='acopname0'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr0'> </td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex1'> </td>
+					<td class="tg-db0m" id='acopname1'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr1'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex2'> </td>
+					<td class="tg-db0m" id='acopname2'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr2'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex3'> </td>
+					<td class="tg-db0m" id='acopname3'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr3'> </td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex4'> </td>
+					<td class="tg-db0m" id='acopname4'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr4'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex5'> </td>
+					<td class="tg-db0m" id='acopname5'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr5'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex6'> </td>
+					<td class="tg-db0m" id='acopname6'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr6'></td>
+				</tr>
+				<tr>
+					<td class="tg-db0m" id='aindex7'> </td>
+					<td class="tg-db0m" id='acopname7'> </td>
+					<td class="tg-db0m" colspan="3" id='acopaddr7'></td>
+				</tr>
+			
+			</table>
+</ul>
+
+
+컨트랙트 소스
+<script src="https://gist.github.com/tevhylkxt7/bfc1676ead1562d68e10816990f92a30.js"></script>
+
+<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
+<script>
+
+	var contractAddress = '0xc32b45e5657d61b9bb1a7f4305ec5c748447bc74';
+	var abi = [
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_applicant",
+					"type": "address"
+				},
+				{
+					"name": "_span",
+					"type": "uint256"
+				}
+			],
+			"name": "setApprove",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_person",
+					"type": "address"
+				}
+			],
+			"name": "setBelong",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_name",
+					"type": "string"
+				}
+			],
+			"name": "setOrganization",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_name",
+					"type": "string"
+				},
+				{
+					"name": "_birth",
+					"type": "string"
+				},
+				{
+					"name": "_age",
+					"type": "uint256"
+				}
+			],
+			"name": "setPerson",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_person",
+					"type": "address"
+				}
+			],
+			"name": "getPerson",
+			"outputs": [
+				{
+					"name": "_allowReference",
+					"type": "bool"
+				},
+				{
+					"name": "_approveBlockNo",
+					"type": "uint256"
+				},
+				{
+					"name": "_refLimitBlockNo",
+					"type": "uint256"
+				},
+				{
+					"name": "_applicant",
+					"type": "address"
+				},
+				{
+					"name": "_name",
+					"type": "string"
+				},
+				{
+					"name": "_birth",
+					"type": "string"
+				},
+				{
+					"name": "_age",
+					"type": "uint256"
+				},
+				{
+					"name": "_orglist",
+					"type": "address[]"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "",
+					"type": "address"
+				}
+			],
+			"name": "orgDetail",
+			"outputs": [
+				{
+					"name": "name",
+					"type": "string"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		}
+	];
+
+	var simpleStorageContract;
+	var simpleStorage;
+	//코드시작
+	window.addEventListener('load', function () {
+		// Checking if Web3 has been injected by the browser (Mist/MetaMask)
+		if (typeof web3 !== 'undefined') {
+			// Use Mist/MetaMask's provider
+			window.web3 = new Web3(web3.currentProvider);
+		} else {
+			console.log('No web3? You should consider trying MetaMask!')
+			// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+			window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8080"));
+		}
+		// Now you can start your app & access web3 freely:
+		startApp();
+	});
+	
+	function startApp() 
+	{
+		simpleStorageContract = web3.eth.contract(abi);
+		simpleStorage = simpleStorageContract.at(contractAddress);
+
+		document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
+
+		web3.eth.getAccounts(function (e, r) {
+			document.getElementById('accountAddr').innerHTML = getLink(r[0]);
+
+		});
+		getmyinfo();
+	}
+	function getLink(addr) {
+		return '<a target="_blank" href=https://testnet.etherscan.io/address/' + addr + '>' + addr + '</a>';
+	}
+	//내 정보 결과 받아오기
+	function getmyinfo() {
+		web3.eth.getAccounts(function (e, r) {
+			var myaccount = r;
+
+			/* simpleStorage.getPerson(myaccount, function (e, r) {
+				document.getElementById('myname').innerHTML = r[4];
+				document.getElementById('mybirth').innerHTML = r[5];
+				document.getElementById('myage').innerHTML = r[6];
+
+				for (i = 0; i < 10; i++) {
+					if (r[7][i] == null) {
+						break;
+					}
+					document.getElementById('copaddr' + i).innerHTML = r[7][i];
+					document.getElementById('index' + i).innerHTML = i;
+					j = 0;
+					//내 학적조회
+					simpleStorage.orgDetail(r[7][i], function (e, r) {
+						document.getElementById('copname' + j).innerHTML = r;
+						j++
+
+					});
+
+				}
+
+			}); */
+			//내 기관이름 가져오기
+			simpleStorage.orgDetail(r, function (e, r) 
+			{
+				if (r =="")
+				{
+					document.getElementById('mycopname').innerHTML = '미등록';
+				}
+				else
+				{
+					document.getElementById('mycopname').innerHTML = r;
+				}
+				
+
+			});
+
+		});
+	}
+	//신원 조회 결과 받아오기
+	function getValue() {
+		var viewValue = document.getElementById('viewValue').value;
+
+		simpleStorage.getPerson(viewValue, function (e, r) {
+			//	if (r[0] == true) {
+			//	document.getElementById('serchresult').innerHTML = "신원 조회 권한을 받지않앗거나 / 조회 시간이 지났습니다.";
+			//	}
+			//	else {
+			document.getElementById('serchresult').innerHTML = "";
+			document.getElementById('name').innerHTML ='이름 : '+r[4];
+			document.getElementById('birth').innerHTML ='생일 : '+r[5];
+			document.getElementById('age').innerHTML ='나이 : ' +r[6];
+			for (i = 0; i < 10; i++) 
+			{
+				if (r[7][i] == null) {
+					break;
+				}
+				document.getElementById('acopaddr' + i).innerHTML = r[7][i];
+				document.getElementById('aindex' + i).innerHTML = i;
+				j = 0;
+				simpleStorage.orgDetail(r[7][i], function (e, r) {
+
+					document.getElementById('acopname' + j).innerHTML = r;
+
+					j++
+				});
+			}
+			//	}
+		});
+
+		web3.eth.getBlockNumber(function (e, r) {
+			document.getElementById('lastBlock').innerHTML = r;
+		});
+		// simpleStorage.getname(function(e,r){
+		//   document.getElementById('name').innerHTML = r;
+		//  })
+
+	}
+	//회사 이름 세팅
+	function Setcop() {
+		var copnamevalue = document.getElementById('copnamevalue').value;
+		simpleStorage.setOrganization(copnamevalue, function (e, r) {
+			document.getElementById('mycopnameresult').innerHTML = ' Transaction id: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+			txid = r;
+		});
+
+		var filter = web3.eth.filter('latest');
+
+		filter.watch(function (e, r) {
+			getmyinfo();
+			web3.eth.getTransaction(txid, function (e, r) 
+			{
+				if (r != null && r.blockNumber > 0) {
+					document.getElementById('pending').innerHTML = '( 기록된 블록 No :' + r.blockNumber + ' 기록완료 )';
+					document.getElementById('pending').style.cssText = 'color:green;';
+					//(변경완료)
+					filter.stopWatching();
+				}
+			});
+		});
+	}
+	//신원 조회 허가
+	/* function SetApprovee() {
+		var Approveaddressvalue = document.getElementById('Approveaddressvalue').value;
+		var Approvetimevalue = document.getElementById('Approvetimevalue').value;
+		var txid;
+		simpleStorage.setApprove(Approveaddressvalue, Approvetimevalue, function (e, r) {
+			document.getElementById('Approveresult').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;"> (기록중....)</span>';
+			txid = r;
+		});
+
+		var filter = web3.eth.filter('latest');
+		//적용 후
+		filter.watch(function (e, r) {
+			web3.eth.getTransaction(txid, function (e, r) {
+				if (r != null && r.blockNumber > 0) {
+					document.getElementById('pending').innerHTML = '( 기록된 블록 No :' + r.blockNumber + ' 기록완료 )';
+					document.getElementById('pending').style.cssText = 'color:green;';
+					//(변경완료)
+					filter.stopWatching();
+				}
+			});
+		});
+	} */
+
+	//채용 / 입학 허가
+	function Setbel() {
+		var joinaddressvalue = document.getElementById('joinaddressvalue').value;
+		var txid;
+		simpleStorage.setBelong(joinaddressvalue, function (e, r) {
+			document.getElementById('joinresult').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+			txid = r;
+		});
+		var filter = web3.eth.filter('latest');
+
+		filter.watch(function (e, r) {
+			web3.eth.getTransaction(txid, function (e, r) {
+				if (r != null && r.blockNumber > 0) {
+					document.getElementById('pending').innerHTML = '( 기록된 블록 No :' + r.blockNumber + ' 기록완료 )';
+					document.getElementById('pending').style.cssText = 'color:green;';
+					//(변경완료)
+					filter.stopWatching();
+				}
+			});
+		});
+
+	}
+	//개인정보 변경
+/* 	function setValue() {
+		var newnamevalue = document.getElementById('newnamevalue').value;
+		var newbirthvalue = document.getElementById('newbirthvalue').value;
+		var newagevalue = document.getElementById('newagevalue').value;
+		var txid;
+
+		simpleStorage.setPerson(newnamevalue, newbirthvalue, newagevalue, function (e, r) {
+			document.getElementById('result').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+			txid = r;
+		});
+
+		var filter = web3.eth.filter('latest');
+		//적용 후
+		filter.watch(function (e, r) {
+			getmyinfo();
+			web3.eth.getTransaction(txid, function (e, r) {
+				if (r != null && r.blockNumber > 0) {
+					document.getElementById('pending').innerHTML = '( 기록된 블록 No :' + r.blockNumber + ' 기록완료 )';
+					document.getElementById('pending').style.cssText = 'color:green;';
+					//(변경완료)
+					document.getElementById('ncommit').style.cssText = 'color:green;';
+					document.getElementById('ncommit').innerHTML = '(변경)';
+					document.getElementById('bcommit').style.cssText = 'color:green;';
+					document.getElementById('bcommit').innerHTML = '(변경)';
+					document.getElementById('acommit').style.cssText = 'color:green;';
+					document.getElementById('acommit').innerHTML = '(변경)';
+					//내정보 변경
+					document.getElementById('myname').style.cssText = 'color:green; font-size:300%;';
+					document.getElementById('mybirth').style.cssText = 'color:green; font-size:300%;';
+					document.getElementById('myage').style.cssText = 'color:green; font-size:300%;';
+					//허가완료
+					document.getElementById('Approveresult').style.cssText = 'color:green;';
+
+					filter.stopWatching();
+				}
+			});
+		});
+	} */
+</script>
+
+</html>

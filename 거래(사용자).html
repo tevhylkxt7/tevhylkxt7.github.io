@@ -1,0 +1,954 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+	<title>거래 예제 </title>
+	<style>
+		body {
+			margin-left: 50px;
+		}
+
+		#InsertgradeValue {
+			width: 580px;
+			margin-right: 10px;
+		}
+
+		#UpdatetgradeValue {
+			width: 580px;
+			margin-right: 10px;
+		}
+		#ChangeOwnerValue{
+			width: 580px;
+			margin-right: 10px;
+		}
+
+		#ConectCoinContractValue{
+			width: 510px;
+			margin-right: 10px;
+		}
+		#MemberContractValue{
+			width: 510px;
+			margin-right: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<h3>거래 예제</h3>
+	<ul>
+		<li>맴버 컨트랙트 주소:
+			<span id="MemberContract"></span>
+		</li>
+		<li>코인 컨트랙트 주소:
+			<span id="CoinContract"></span>
+		</li>
+		<li>내 주소:
+			<span id="accountAddr"></span>
+		</li>
+	</ul>
+	<h3>거래 예제 (오너)--------------------</h3>
+	<ul>
+		<li>오너 주소 : <span id="OwnerAddr"></span>
+		</li>
+		<li>설정 등급 표</li>
+		<!-- 등급 테이블 스타일 -->
+		<style type="text/css">
+			.tg {
+				border-collapse: collapse;
+				border-spacing: 0;
+				border-color: #aabcfe;
+			}
+
+			.tg td {
+				font-family: Arial, sans-serif;
+				font-size: 14px;
+				padding: 10px 5px;
+				border-style: solid;
+				border-width: 1px;
+				overflow: hidden;
+				word-break: normal;
+				border-color: #aabcfe;
+				color: #669;
+				background-color: #e8edff;
+			}
+
+			.tg th {
+				font-family: Arial, sans-serif;
+				font-size: 14px;
+				font-weight: normal;
+				padding: 10px 5px;
+				border-style: solid;
+				border-width: 1px;
+				overflow: hidden;
+				word-break: normal;
+				border-color: #aabcfe;
+				color: #039;
+				background-color: #b9c9fe;
+			}
+
+			.tg .tg-s6z2 {
+				text-align: center
+			}
+
+			.tg .tg-baqh {
+				text-align: center;
+				vertical-align: top
+			}
+		</style>
+		<!-- 등급 테이블 -->
+		<table class="tg">
+			<tr>
+				<th class="tg-s6z2">No.</th>
+				<th class="tg-s6z2">등급</th>
+				<th class="tg-s6z2">최소 거래량</th>
+				<th class="tg-s6z2">최소 거래금액</th>
+				<th class="tg-s6z2">캐쉬 백</th>
+			</tr>
+			<tr>
+				<td class="tg-s6z2" id='Gradeno0'></td>
+				<td class="tg-s6z2" id='Grade0'></td>
+				<td class="tg-s6z2" id='Grademount0'></td>
+				<td class="tg-s6z2" id='Grademony0'></td>
+				<td class="tg-s6z2" id='Gradecashback0'></td>
+			</tr>
+			<tr>
+				<td class="tg-s6z2" id='Gradeno1'></td>
+				<td class="tg-s6z2" id='Grade1'></td>
+				<td class="tg-s6z2" id='Grademount1'></td>
+				<td class="tg-s6z2" id='Grademony1'></td>
+				<td class="tg-s6z2" id='Gradecashback1'></td>
+			</tr>
+			<tr>
+				<td class="tg-s6z2" id='Gradeno2'></td>
+				<td class="tg-s6z2" id='Grade2'></td>
+				<td class="tg-s6z2" id='Grademount2'></td>
+				<td class="tg-s6z2" id='Grademony2'></td>
+				<td class="tg-s6z2" id='Gradecashback2'></td>
+			</tr>
+			<tr>
+				<td class="tg-baqh" id='Gradeno3'></td>
+				<td class="tg-baqh" id='Grade3'></td>
+				<td class="tg-baqh" id='Grademount3'></td>
+				<td class="tg-baqh" id='Grademony3'></td>
+				<td class="tg-baqh" id='Gradecashback3'></td>
+			</tr>
+			<tr>
+				<td class="tg-baqh" id='Gradeno4'></td>
+				<td class="tg-baqh" id='Grade4'></td>
+				<td class="tg-baqh" id='Grademount4'></td>
+				<td class="tg-baqh" id='Grademony4'></td>
+				<td class="tg-baqh" id='Gradecashback4'></td>
+			</tr>
+		</table>
+		<li>등급 추가
+			&nbsp;<input id="InsertgradeValue" placeholder="등급 이름(string), 최소 거래량(uint256), 최소 거래금액(uint256), 캐쉬 백(int8)" type="text">
+			<button onclick="InsertGrade()">추 가</button>
+			<div id="Insertresult"></div></li>
+			<li>등급 변경
+				&nbsp;<input id="UpdatetgradeValue" placeholder="인덱스(uint256), 등급 이름(string), 최소 거래량(uint256), 최소 거래금액(uint256), 캐쉬 백(int8)"
+				 type="text">
+				<button onclick="UpdateGrade()">수 정</button>
+				<div id="Updateresult"></div></li>
+			<li>오너 이전 &nbsp;<input id="ChangeOwnerValue" placeholder="오너 권한을 넘겨 줄 주소(Address)"
+				type="text">
+				<button onclick="ChangeOwner()">변 경</button>
+				<div id="ChangeOwnerresult"></div></li>
+		
+			<li>코인 컨트렉트 연결 &nbsp;<input id="ConectCoinContractValue" placeholder="연결할 코인 컨트렉트주소(Address)"
+				type="text">
+				<button onclick="ConectCoinContract()">연 결</button>
+				<div id="ConectCoinContractresult"></div></li>
+	
+			<li>멤버 컨트렉트 연결 &nbsp;<input id="MemberContractValue" placeholder="연결할 멤버 컨트렉트주소(Address)"
+				type="text">
+				<button onclick="ConectMemberContract()">연 결</button>
+				<div id="MemberContractresult"></div></li>
+	</ul>
+	컨트랙트 소스
+	<script src="https://gist.github.com/tevhylkxt7/bfc1676ead1562d68e10816990f92a30.js"></script>
+
+	<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+	<!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
+	<script>
+
+		var MemberscontractAddress = '0xf4a09a335de520db4cb923cd18268151a7410005';
+		var CoincontractAddress = '0x57355a3ee1d9acfbc64d10b497d9cb4632afab4c';
+
+		var Membersabi = [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "oldaddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "newaddr",
+						"type": "address"
+					}
+				],
+				"name": "TransferOwnership",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_index",
+						"type": "uint256"
+					},
+					{
+						"name": "_name",
+						"type": "string"
+					},
+					{
+						"name": "_times",
+						"type": "uint256"
+					},
+					{
+						"name": "_sum",
+						"type": "uint256"
+					},
+					{
+						"name": "_rate",
+						"type": "int8"
+					}
+				],
+				"name": "editStatus",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_name",
+						"type": "string"
+					},
+					{
+						"name": "_times",
+						"type": "uint256"
+					},
+					{
+						"name": "_sum",
+						"type": "uint256"
+					},
+					{
+						"name": "_rate",
+						"type": "int8"
+					}
+				],
+				"name": "pushStatus",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "setCoin",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_new",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_member",
+						"type": "address"
+					},
+					{
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "updateHistory",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "coin",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "_member",
+						"type": "address"
+					}
+				],
+				"name": "getCashbackRate",
+				"outputs": [
+					{
+						"name": "rate",
+						"type": "int8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "status",
+				"outputs": [
+					{
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"name": "times",
+						"type": "uint256"
+					},
+					{
+						"name": "sum",
+						"type": "uint256"
+					},
+					{
+						"name": "rate",
+						"type": "int8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "tradingHistory",
+				"outputs": [
+					{
+						"name": "times",
+						"type": "uint256"
+					},
+					{
+						"name": "sum",
+						"type": "uint256"
+					},
+					{
+						"name": "statusIndex",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		];
+		var Coinabi = [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "oldaddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "newaddr",
+						"type": "address"
+					}
+				],
+				"name": "TransferOwnership",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "blacklisting",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Cashback",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "RejectedPaymentFromBlacklistedAddr",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "RejectedPaymentToBlacklistedAddr",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "target",
+						"type": "address"
+					}
+				],
+				"name": "DeleteFromBlacklist",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "deleteFormBlacklist",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "target",
+						"type": "address"
+					}
+				],
+				"name": "Blacklisted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_members",
+						"type": "address"
+					}
+				],
+				"name": "setMembers",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_new",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"name": "_supply",
+						"type": "uint256"
+					},
+					{
+						"name": "_name",
+						"type": "string"
+					},
+					{
+						"name": "_symbol",
+						"type": "string"
+					},
+					{
+						"name": "_decimals",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "blackList",
+				"outputs": [
+					{
+						"name": "",
+						"type": "int8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "members",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		];
+
+		var MemberContract;
+		var MemberStorage;
+		var CoinContract;
+		var CoinStorage;
+
+		//코드시작
+		window.addEventListener('load', function () {
+			// Checking if Web3 has been injected by the browser (Mist/MetaMask)
+			if (typeof web3 !== 'undefined') {
+				// Use Mist/MetaMask's provider
+				window.web3 = new Web3(web3.currentProvider);
+			} else {
+				console.log('No web3? You should consider trying MetaMask!')
+				// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+				window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8080"));
+			}
+			// Now you can start your app & access web3 freely:
+			startApp();
+		});
+
+		function startApp() {
+			MemberContract = web3.eth.contract(Membersabi);
+			MemberStorage = MemberContract.at(MemberscontractAddress);
+
+			CoinContract = web3.eth.contract(Coinabi);
+			CoinStorage = CoinContract.at(CoincontractAddress);
+
+			document.getElementById('MemberContract').innerHTML = getLink(MemberscontractAddress);
+
+			web3.eth.getAccounts(function (e, r) {
+				document.getElementById('accountAddr').innerHTML = getLink(r[0]);
+			});
+			getValue();
+		}
+
+		//링크 받아오기
+		function getLink(addr) {
+			return '<a target="_blank" href=https://testnet.etherscan.io/address/' + addr + '>' + addr + '</a>';
+		}
+
+		//코인 컨트렉트 연결
+		function ConectCoinContract() {
+			var ConectCoinContractValue = document.getElementById('ConectCoinContractValue').value;
+
+			MemberStorage.setCoin(ConectCoinContractValue, function (e, r) {
+				document.getElementById('ConectCoinContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				txid = r;
+			});
+
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending').innerHTML = '( 기록완료 )';
+						document.getElementById('pending').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+		//멤버 컨트렉트 연결
+		function ConectMemberContract() {
+			var MemberContractValue = document.getElementById('MemberContractValue').value;
+			CoinStorage.setMembers(MemberContractValue, function (e, r) {
+				document.getElementById('MemberContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				txid = r;
+			});
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending').innerHTML = '( 기록완료 )';
+						document.getElementById('pending').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+
+		//등급 변경하기
+		function UpdateGrade() {
+			var UpdatetgradeValue = document.getElementById('UpdatetgradeValue').value;
+			var UpdateStrarry = UpdatetgradeValue.split(',');
+			MemberStorage.editStatus(UpdateStrarry[0], UpdateStrarry[1], UpdateStrarry[2], UpdateStrarry[3], UpdateStrarry[4], function (e, r) {
+				document.getElementById('Updateresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				txid = r;
+			});
+
+			//적용 후
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending').innerHTML = '( 기록완료 )';
+						document.getElementById('pending').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+		//오너 변경
+		function ChangeOwner() {
+			var ChangeOwnerValue = document.getElementById('ChangeOwnerValue').value;
+
+			MemberStorage.transferOwnership(ChangeOwnerValue, function (e, r) {
+				document.getElementById('ChangeOwnerresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				txid = r;
+			})
+
+			//적용 후
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending').innerHTML = '( 기록완료 )';
+						document.getElementById('pending').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+		//등급 추가하기
+		function InsertGrade() {
+			var InsertgradeValue = document.getElementById('InsertgradeValue').value;
+			var InsertStrarry = InsertgradeValue.split(',');
+			MemberStorage.pushStatus(InsertStrarry[0], InsertStrarry[1], InsertStrarry[2], InsertStrarry[3], function (e, r) {
+				document.getElementById('Insertresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				txid = r;
+			});
+
+			//적용 후
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending').innerHTML = '( 기록완료 )';
+						document.getElementById('pending').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+		//조회 결과 받아오기
+		function getValue() {
+			//오너이름 받기
+			MemberStorage.owner(function (e, r) {
+				document.getElementById("OwnerAddr").innerHTML = r;
+			});
+			//코인 컨트렉트 주소 받기
+			MemberStorage.coin(function (e, r) {
+				document.getElementById("CoinContract").innerHTML = r;
+
+				if (r == 0x0000000000000000000000000000000000000000) {
+					document.getElementById("CoinContract").innerHTML = "미연결";
+				}
+			});
+			for (var i = 0; i < 5; i++) {
+				var j = 0;
+				//ㅅㅂ 포문 버그있음 
+				MemberStorage.status(i, function (e, r) {
+					if (r != null) {
+						document.getElementById('Gradeno' + j).innerHTML = j;
+						document.getElementById('Grade' + j).innerHTML = r[0];
+						document.getElementById('Grademount' + j).innerHTML = r[1];
+						document.getElementById('Grademony' + j).innerHTML = r[2];
+						document.getElementById('Gradecashback' + j).innerHTML = r[3];
+						j++;
+					}
+				});
+			}
+			// simpleStorage.getname(function(e,r){
+			//   document.getElementById('name').innerHTML = r;
+			//  })
+		}
+		//회사 이름 세팅
+	</script>
+</html>
