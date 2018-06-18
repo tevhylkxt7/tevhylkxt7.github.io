@@ -11,28 +11,77 @@
 		body {
 			margin-left: 50px;
 		}
-
 		#InsertgradeValue {
 			width: 580px;
 			margin-right: 10px;
 		}
-
+	
 		#UpdatetgradeValue {
 			width: 580px;
 			margin-right: 10px;
 		}
-		#ChangeOwnerValue{
+	
+		#ChangeOwnerValue {
 			width: 580px;
 			margin-right: 10px;
 		}
-
-		#ConectCoinContractValue{
+	
+		#ConectCoinContractValue {
 			width: 510px;
 			margin-right: 10px;
 		}
-		#MemberContractValue{
+	
+		#MemberContractValue {
 			width: 510px;
 			margin-right: 10px;
+		}
+	
+		#Coinname {
+			font-size: 200%;
+			margin-right: 10px;
+		}
+	
+		#Coinsymbol {
+	
+			margin-right: 10px;
+		}
+	
+		#CoinAmount {
+			font-size: 200%;
+			margin-right: 10px;
+		}
+	
+		#CoinChangeOwnerValue {
+			width: 580px;
+			margin-right: 10px;
+		}
+	
+		#TransferValue {
+			width: 610px;
+			margin-right: 10px;
+		}
+	
+		#MyCoin {
+			font-size: 200%;
+			margin-right: 10px;
+			color: green;
+		}
+	
+		#Coinsymbol2 {
+			margin-right: 10px;
+			color: green;
+		}
+	
+		.left-box {
+		
+			float: left;
+			width: 50%;
+		}
+	
+		.right-box {
+		
+			float: right;
+			width: 50%;
 		}
 	</style>
 </head>
@@ -41,7 +90,7 @@
 	<h3>거래 예제</h3>
 	<ul>
 		<li>맴버 컨트랙트 주소:
-			<span id="MemberContract"></span>
+			<span id="MemberContractAddr"></span>
 		</li>
 		<li>코인 컨트랙트 주소:
 			<span id="CoinContract"></span>
@@ -50,10 +99,26 @@
 			<span id="accountAddr"></span>
 		</li>
 	</ul>
-	<h3>거래 예제 (오너)--------------------</h3>
+	<h3>컨트렉트 연결 관리(오너)---------------------------------------------------------------------------------------------</h3>
 	<ul>
-		<li>오너 주소 : <span id="OwnerAddr"></span>
-		</li>
+			<li>코인 컨트렉트 연결 &nbsp;<input id="ConectCoinContractValue" placeholder="연결할 코인 컨트렉트주소(Address)"
+				type="text">
+				<button onclick="ConectCoinContract()">연 결</button>
+				<div id="ConectCoinContractresult"></div></li>
+	
+			<li>멤버 컨트렉트 연결 &nbsp;<input id="MemberContractValue" placeholder="연결할 멤버 컨트렉트주소(Address)"
+				type="text">
+				<button onclick="ConectMemberContract()">연 결</button>
+				<div id="MemberContractresult"></div></li>
+	</ul>
+	<h3>맴버 컨트렉트 (오너)----------------------------------------------------------------------------------------------------</h3>
+	<ul>
+		
+		<li class='left-box'>오너 주소 : <span id="OwnerAddr"></span></li>
+		<li>오너 이전 &nbsp;<input id="ChangeOwnerValue" placeholder="오너 권한을 넘겨 줄 주소(Address)"
+			type="text">
+			<button id ="MembersChangeOwnerbtn" onclick="ChangeOwner()">변 경</button>
+			<div id="ChangeOwnerresult"></div></li>	
 		<li>설정 등급 표</li>
 		<!-- 등급 테이블 스타일 -->
 		<style type="text/css">
@@ -146,27 +211,30 @@
 		</table>
 		<li>등급 추가
 			&nbsp;<input id="InsertgradeValue" placeholder="등급 이름(string), 최소 거래량(uint256), 최소 거래금액(uint256), 캐쉬 백(int8)" type="text">
-			<button onclick="InsertGrade()">추 가</button>
+			<button id="InsertGradebtn" onclick="InsertGrade()">추 가</button>
 			<div id="Insertresult"></div></li>
 			<li>등급 변경
-				&nbsp;<input id="UpdatetgradeValue" placeholder="인덱스(uint256), 등급 이름(string), 최소 거래량(uint256), 최소 거래금액(uint256), 캐쉬 백(int8)"
-				 type="text">
-				<button onclick="UpdateGrade()">수 정</button>
-				<div id="Updateresult"></div></li>
-			<li>오너 이전 &nbsp;<input id="ChangeOwnerValue" placeholder="오너 권한을 넘겨 줄 주소(Address)"
-				type="text">
-				<button onclick="ChangeOwner()">변 경</button>
-				<div id="ChangeOwnerresult"></div></li>
+			&nbsp;<input id="UpdatetgradeValue" placeholder="인덱스(uint256), 등급 이름(string), 최소 거래량(uint256), 최소 거래금액(uint256), 캐쉬 백(int8)"
+			 type="text">
+			<button id="UpdateGradebtn" onclick="UpdateGrade()">수 정</button>
+			<div id="Updateresult"></div></li>
 		
-			<li>코인 컨트렉트 연결 &nbsp;<input id="ConectCoinContractValue" placeholder="연결할 코인 컨트렉트주소(Address)"
-				type="text">
-				<button onclick="ConectCoinContract()">연 결</button>
-				<div id="ConectCoinContractresult"></div></li>
-	
-			<li>멤버 컨트렉트 연결 &nbsp;<input id="MemberContractValue" placeholder="연결할 멤버 컨트렉트주소(Address)"
-				type="text">
-				<button onclick="ConectMemberContract()">연 결</button>
-				<div id="MemberContractresult"></div></li>
+	</ul>
+	<h3>코인 컨트렉트 (오너)----------------------------------------------------------------------------------------------------</h3>
+	<ul>
+		<li class='left-box'>현재 오너 주소 : <span id="CoinOwnerAddr"></span></li>
+		<li>오너 이전 &nbsp;<input id="CoinChangeOwnerValue" placeholder="오너 권한을 넘겨 줄 주소(Address)"
+			type="text">
+		<button id ="CoinChangeOwnerbtn" onclick="CoinChangeOwner()">변 경</button>
+		<div id="CoinChangeOwnerresult"></div></li>
+	<h3>코인 컨트렉트 (거래)----------------------------------------------------------------------------------------------------</h3>
+		<li>코인 이름 : <span id="Coinname" ></span></li>
+		<li>코인 총 발행량 : <span id="CoinAmount"></span><span id="Coinsymbol"></span></li>
+		<li class='left-box'>내 코인 잔액 : <span id="MyCoin"></span><span id="Coinsymbol2"></span></li>
+		<li>송금 : &nbsp;<input id="TransferValue" placeholder="송금 대상 주소(Address), 금액(uint256)"
+			type="text">
+		   <button onclick="Transfer()">송 금</button>
+		   <div id="Transferresult"></div></li>
 	</ul>
 	컨트랙트 소스
 	<script src="https://gist.github.com/tevhylkxt7/bfc1676ead1562d68e10816990f92a30.js"></script>
@@ -175,8 +243,8 @@
 	<!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
 	<script>
 
-		var MemberscontractAddress = '0xf4a09a335de520db4cb923cd18268151a7410005';
-		var CoincontractAddress = '0x57355a3ee1d9acfbc64d10b497d9cb4632afab4c';
+		var MemberscontractAddress = '0xd1aeb18db1f3a5ff50be4e43e3409886b1abc270';
+		var CoincontractAddress = '0xec5bafbb7ee66ede4b67bc17c839a2c699c31da3';
 
 		var Membersabi = [
 			{
@@ -764,7 +832,8 @@
 		var MemberStorage;
 		var CoinContract;
 		var CoinStorage;
-
+		var counter = 0;
+		var refreshIntervalId;
 		//코드시작
 		window.addEventListener('load', function () {
 			// Checking if Web3 has been injected by the browser (Mist/MetaMask)
@@ -787,12 +856,13 @@
 			CoinContract = web3.eth.contract(Coinabi);
 			CoinStorage = CoinContract.at(CoincontractAddress);
 
-			document.getElementById('MemberContract').innerHTML = getLink(MemberscontractAddress);
-
+			document.getElementById('MemberContractAddr').innerHTML = getLink(MemberscontractAddress);
+		
 			web3.eth.getAccounts(function (e, r) {
 				document.getElementById('accountAddr').innerHTML = getLink(r[0]);
 			});
 			getValue();
+			CoingetValue();
 		}
 
 		//링크 받아오기
@@ -805,7 +875,7 @@
 			var ConectCoinContractValue = document.getElementById('ConectCoinContractValue').value;
 
 			MemberStorage.setCoin(ConectCoinContractValue, function (e, r) {
-				document.getElementById('ConectCoinContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				document.getElementById('ConectCoinContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending7" style="color:red;">(기록중....)</span>';
 				txid = r;
 			});
 
@@ -814,29 +884,30 @@
 				getValue();
 				web3.eth.getTransaction(txid, function (e, r) {
 					if (r != null && r.blockNumber > 0) {
-						document.getElementById('pending').innerHTML = '( 기록완료 )';
-						document.getElementById('pending').style.cssText = 'color:green;';
+						document.getElementById('pending7').innerHTML = '( 기록완료 )';
+						document.getElementById('pending7').style.cssText = 'color:green;';
 						//(변경완료)
 						filter.stopWatching();
 					}
 				});
 			});
 		}
-
+		
 		//멤버 컨트렉트 연결
 		function ConectMemberContract() {
 			var MemberContractValue = document.getElementById('MemberContractValue').value;
 			CoinStorage.setMembers(MemberContractValue, function (e, r) {
-				document.getElementById('MemberContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				document.getElementById('MemberContractresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending6" style="color:red;"> ( 기록중.... ) </span>';
 				txid = r;
 			});
+		
 			var filter = web3.eth.filter('latest');
 			filter.watch(function (e, r) {
 				getValue();
 				web3.eth.getTransaction(txid, function (e, r) {
 					if (r != null && r.blockNumber > 0) {
-						document.getElementById('pending').innerHTML = '( 기록완료 )';
-						document.getElementById('pending').style.cssText = 'color:green;';
+						document.getElementById('pending6').innerHTML = '( 기록완료 )';
+						document.getElementById('pending6').style.cssText = 'color:green;';
 						//(변경완료)
 						filter.stopWatching();
 					}
@@ -850,31 +921,30 @@
 			var UpdatetgradeValue = document.getElementById('UpdatetgradeValue').value;
 			var UpdateStrarry = UpdatetgradeValue.split(',');
 			MemberStorage.editStatus(UpdateStrarry[0], UpdateStrarry[1], UpdateStrarry[2], UpdateStrarry[3], UpdateStrarry[4], function (e, r) {
-				document.getElementById('Updateresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				document.getElementById('Updateresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending5" style="color:red;"> ( 기록중.... ) </span>';
 				txid = r;
 			});
 
 			//적용 후
-			var filter = web3.eth.filter('latest');
-			filter.watch(function (e, r) {
+			 var filter = web3.eth.filter('latest');
+			 filter.watch(function (e, r) {
 				getValue();
 				web3.eth.getTransaction(txid, function (e, r) {
 					if (r != null && r.blockNumber > 0) {
-						document.getElementById('pending').innerHTML = '( 기록완료 )';
-						document.getElementById('pending').style.cssText = 'color:green;';
+						document.getElementById('pending5').innerHTML = '( 기록완료 )';
+						document.getElementById('pending5').style.cssText = 'color:green;';
 						//(변경완료)
 						filter.stopWatching();
 					}
 				});
 			});
 		}
+		//오너 변경(코인)
+		function CoinChangeOwner(){
+			var CoinChangeOwnerValue = document.getElementById('CoinChangeOwnerValue').value;
 
-		//오너 변경
-		function ChangeOwner() {
-			var ChangeOwnerValue = document.getElementById('ChangeOwnerValue').value;
-
-			MemberStorage.transferOwnership(ChangeOwnerValue, function (e, r) {
-				document.getElementById('ChangeOwnerresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+			MemberStorage.transferOwnership(CoinChangeOwnerValue, function (e, r) {
+				document.getElementById('CoinChangeOwnerresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending4" style="color:red;"> ( 기록중.... ) </span>';
 				txid = r;
 			})
 
@@ -884,8 +954,56 @@
 				getValue();
 				web3.eth.getTransaction(txid, function (e, r) {
 					if (r != null && r.blockNumber > 0) {
-						document.getElementById('pending').innerHTML = '( 기록완료 )';
-						document.getElementById('pending').style.cssText = 'color:green;';
+						document.getElementById('pending4').innerHTML = '( 기록완료 )';
+						document.getElementById('pending4').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+
+		//송금
+		function Transfer()
+		{
+			var TransferValue = document.getElementById('TransferValue').value;
+			var TransferStrarry = TransferValue.split(',');
+			CoinStorage.transfer(TransferStrarry[0],TransferStrarry[1],function(e,r)
+			{
+				document.getElementById('Transferresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending1" style="color:red;"> ( 기록중.... ) </span>';
+				txid = r;
+			});
+
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				CoingetValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending1').innerHTML = '( 기록완료 )';
+						document.getElementById('pending1').style.cssText = 'color:green;';
+						//(변경완료)
+						filter.stopWatching();
+					}
+				});
+			});
+		}
+		//오너 변경(맴버)
+		function ChangeOwner() {
+			var ChangeOwnerValue = document.getElementById('ChangeOwnerValue').value;
+
+			MemberStorage.transferOwnership(ChangeOwnerValue, function (e, r) {
+				document.getElementById('ChangeOwnerresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending2" style="color:red;"> ( 기록중.... ) </span>';
+				txid = r;
+			})
+
+			//적용 후
+			var filter = web3.eth.filter('latest');
+			filter.watch(function (e, r) {
+				getValue();
+				web3.eth.getTransaction(txid, function (e, r) {
+					if (r != null && r.blockNumber > 0) {
+						document.getElementById('pending2').innerHTML = '( 기록완료 )';
+						document.getElementById('pending2').style.cssText = 'color:green;';
 						//(변경완료)
 						filter.stopWatching();
 					}
@@ -898,7 +1016,7 @@
 			var InsertgradeValue = document.getElementById('InsertgradeValue').value;
 			var InsertStrarry = InsertgradeValue.split(',');
 			MemberStorage.pushStatus(InsertStrarry[0], InsertStrarry[1], InsertStrarry[2], InsertStrarry[3], function (e, r) {
-				document.getElementById('Insertresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending" style="color:red;">(기록중....)</span>';
+				document.getElementById('Insertresult').innerHTML = '트랜잭션 ID: ' + r + '<span id="pending3" style="color:red;"> ( 기록중.... ) </span>';
 				txid = r;
 			});
 
@@ -908,47 +1026,134 @@
 				getValue();
 				web3.eth.getTransaction(txid, function (e, r) {
 					if (r != null && r.blockNumber > 0) {
-						document.getElementById('pending').innerHTML = '( 기록완료 )';
-						document.getElementById('pending').style.cssText = 'color:green;';
+						document.getElementById('pending3').innerHTML = '( 기록완료 )';
+						document.getElementById('pending3').style.cssText = 'color:green;';
 						//(변경완료)
 						filter.stopWatching();
 					}
 				});
 			});
 		}
+		function CoingetValue()
+		{
+			var CoinOwnerAddr;
+			CoinStorage.owner(function(e,r){
+				document.getElementById("CoinOwnerAddr").innerHTML = r;
+				CoinOwnerAddr= r;
+				web3.eth.getAccounts(function(e,r){
+					if(CoinOwnerAddr != r){
+						document.getElementById('CoinChangeOwnerbtn').disabled =true;
+				
+						document.getElementById('CoinChangeOwnerbtn').innerHTML = '권한없음';
+					}
+					else{
+						document.getElementById('CoinChangeOwnerbtn').disabled = false;
+					}
+				})
 
+			});
+			CoinStorage.name(function(e,r){
+				document.getElementById("Coinname").innerHTML = r;
+			});
+			CoinStorage.symbol(function(e,r){
+				document.getElementById("Coinsymbol").innerHTML = r;
+				document.getElementById("Coinsymbol2").innerHTML = r;
+			});
+			CoinStorage.totalSupply(function(e,r){
+				document.getElementById("CoinAmount").innerHTML = r;
+			});
+			web3.eth.getAccounts(function(e,r)
+			{
+				CoinStorage.balanceOf(r,function(e,r)
+				{
+					document.getElementById("MyCoin").innerHTML = r;
+				})
+			})
+
+		}
 		//조회 결과 받아오기
 		function getValue() {
 			//오너이름 받기
+			var OwnerAddr;
+
 			MemberStorage.owner(function (e, r) {
 				document.getElementById("OwnerAddr").innerHTML = r;
+
+				OwnerAddr= r;
+				web3.eth.getAccounts(function(e,r){
+					if(OwnerAddr != r){
+						//등급추가 버튼 비활성화
+						document.getElementById('InsertGradebtn').disabled =true;
+						document.getElementById('InsertGradebtn').innerHTML ='권한없음';
+						//맴버 오너 이전 버튼 비활성화
+						document.getElementById('MembersChangeOwnerbtn').disabled =true;
+						document.getElementById('MembersChangeOwnerbtn').innerHTML = '권한없음';
+						//등급 변경 버튼 비활성화
+						document.getElementById('UpdateGradebtn').disabled =true;
+						document.getElementById('UpdateGradebtn').innerHTML ='권한없음';
+
+					}
+					else{
+						//맴버 오너 이전 버튼 활성화
+						document.getElementById('MembersChangeOwnerbtn').disabled = false;
+						//등급추가 버튼 활성화
+						document.getElementById('InsertGradebtn').disabled = false;
+						//등급 변경 버튼 비활성화
+						document.getElementById('UpdateGradebtn').disabled = false;
+					}
+				})
+
 			});
 			//코인 컨트렉트 주소 받기
 			MemberStorage.coin(function (e, r) {
-				document.getElementById("CoinContract").innerHTML = r;
-
+				document.getElementById("CoinContract").innerHTML = r + '<span id="pending" style="color:green;"> (연결완료)</span>'
+			
 				if (r == 0x0000000000000000000000000000000000000000) {
-					document.getElementById("CoinContract").innerHTML = "미연결";
+					document.getElementById("CoinContract").innerHTML = '<span id="pending" style="color:red;"> (미연결)</span>'
 				}
 			});
-			for (var i = 0; i < 5; i++) {
-				var j = 0;
-				//ㅅㅂ 포문 버그있음 
-				MemberStorage.status(i, function (e, r) {
-					if (r != null) {
-						document.getElementById('Gradeno' + j).innerHTML = j;
-						document.getElementById('Grade' + j).innerHTML = r[0];
-						document.getElementById('Grademount' + j).innerHTML = r[1];
-						document.getElementById('Grademony' + j).innerHTML = r[2];
-						document.getElementById('Gradecashback' + j).innerHTML = r[3];
-						j++;
-					}
-				});
-			}
+			
+			//표 띄우기
+			var refreshIntervalId = setInterval(viewchart, 100);
+			
 			// simpleStorage.getname(function(e,r){
 			//   document.getElementById('name').innerHTML = r;
 			//  })
+			
+		
 		}
 		//회사 이름 세팅
+		function viewchart(){
+			MemberStorage.status(counter, function (e, r) {
+				var serch = r[0];
+
+					if(serch == serch2)
+					{
+						counter--;
+						return;
+					}
+					else{
+
+						document.getElementById('Gradeno' + counter).innerHTML = counter;
+
+						document.getElementById('Grade' + counter).innerHTML = r[0];
+						document.getElementById('Grademount' + counter).innerHTML = r[1];
+						document.getElementById('Grademony' + counter).innerHTML = r[2];
+						document.getElementById('Gradecashback' + counter).innerHTML = r[3];
+						
+						counter++;
+					}
+
+					
+
+					if(counter == 5)
+					{
+						clearInterval(refreshIntervalId);
+					}
+
+				});
+
+			
+		}
 	</script>
 </html>
