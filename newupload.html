@@ -1,69 +1,39 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
+    <title>이미지 업로드 테스트</title>
+    <meta http-equiv="CACHE-CONTROL" content="text/html; charset=UTF-8">
     <script src="https://wzrd.in/standalone/buffer"></script>
-    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js" integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
-        crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
-    <title>이미지 업로드 해보자 </title>
-    <style>
-        body {
-            margin-left: 50px;
-        }
-
-        #convert {
-            width: 150px;
-            height: 150px;
-        }
-    </style>
-    <script type="text/javascript" src="1.js"></script>
-</head>
-
-<body>
-    <form action="/">
-        <fieldset>
+    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
+    integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
+    crossorigin="anonymous"></script>
+  </head>
+    
+  <body>
+        <form action="/">
+          <fieldset>
             <legend>Upload photo</legend>
             <input type="file" name="photo" id="photo">
             <button type="button" onclick="upload()">Upload</button>
-        </fieldset>
-    </form>
-    </br>
-    </br>
-    <a id="url"></a>
-    </br>
-    </br>
-    <img id="output">
+          </fieldset>
+        </form>
+        </br>
+        </br>
+        <a id="url"></a>
+        </br>
+        </br>
+        <img id="output">
+    </body>
 
-    <p>
-        <input type=file>
-    </p>
-    <div id="holder"></div>
-    <span id="result"></span>
-    <div>변환 이미지</div>
-    <img id="convert" alt="Blue Circle">
-    <button onclick="uploade()">업로드 </button>
-    <script>series();</script>
-</body>
-
-<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-<!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
-<script>
+  <script type="text/javascript">
     buffer = require('buffer/').Buffer
 
+    
     var contractAddress = '0xc5244053ecA508a11951400fc7Af28738Fd0ce77';
     var abi = [{ "constant": false, "inputs": [{ "name": "x", "type": "uint256" }], "name": "set", "outputs": [], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "get", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "type": "function" }];
     var simpleStorageContract;
     var simpleStorage;
-
-    var upload = document.getElementsByTagName('input')[0],
-        holder = document.getElementById('holder'),
-        state = document.getElementById('status');
-
-    var result;
-
 
     window.addEventListener('load', function () {
 
@@ -90,57 +60,27 @@
         //   });
     }
 
-
-    upload.onchange = function (e) {
-        e.preventDefault();
-
-        var file = upload.files[0],
-            reader = new FileReader();
-
-
-
-        reader.onload = function (event) {
-            result = reader.result;
-
-            var img = new Image();
-            img.src = event.target.result;
-
-            document.getElementById('convert').src = result;
-            // note: no onload required since we've got the dataurl...I think! :)
-
-            img.width = 150;
-            img.height = 150;
-            holder.innerHTML = '';
-            holder.appendChild(img);
-
-
-        };
-
-        reader.readAsDataURL(file);
-
-        return false;
-    };
-
-    function upload() {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-            const buf = buffer.Buffer(reader.result) // Convert data into buffer
-            ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
-                if (err) {
-                    console.error(err)
-                    return
-                }
-                let url = `https://ipfs.io/ipfs/${result[0].hash}`
-                console.log(`Url --> ${url}`)
-                document.getElementById("url").innerHTML = url
-                document.getElementById("url").href = url
-                document.getElementById("output").src = url
-            })
-        }
-        const photo = document.getElementById("photo");
-        reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
+    function upload() 
+    {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
+        const buf = buffer.Buffer(reader.result) // Convert data into buffer
+        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+          if(err) {
+            console.error(err)
+            return
+          }
+          let url = `https://ipfs.io/ipfs/${result[0].hash}`
+          console.log(`Url --> ${url}`)
+          document.getElementById("url").innerHTML= url
+          document.getElementById("url").href= url
+          document.getElementById("output").src = url
+        })
+      }
+      const photo = document.getElementById("photo");
+      reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
     }
-</script>
+  </script>
 
 </html>
