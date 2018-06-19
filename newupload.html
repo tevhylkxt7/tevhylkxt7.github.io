@@ -6,11 +6,6 @@
     
     <script src="https://wzrd.in/standalone/buffer"></script>
     <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
-<<<<<<< HEAD
-   
-=======
-
->>>>>>> parent of a135feb... c
     integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
     crossorigin="anonymous"></script>
   </head>
@@ -69,7 +64,7 @@
     {
       const reader = new FileReader();
       reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
+        const ipfs = window.IpfsApi('localhost', 9001) // Connect to IPFS
         const buf = buffer.Buffer(reader.result) // Convert data into buffer
         ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
           if(err) {
